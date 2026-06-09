@@ -104,6 +104,7 @@ tasks.named<JavaCompile>("compileJava") {
 
 tasks.test {
     useJUnitPlatform()
+    environment("JDBC_URL", "jdbc:postgresql://localhost:5432/javalin_test")
 }
 
 spotless { // pre-commit

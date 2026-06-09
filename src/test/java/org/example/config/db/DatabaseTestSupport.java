@@ -10,16 +10,20 @@ import java.sql.Statement;
 
 public class DatabaseTestSupport {
 
-  private static final String SEED_USERS_SCRIPT = "db/migration/V1.1.0__seed_users.sql";
+  private static final String SEED_USERS_SCRIPT = "db/seed/seed_users.sql";
 
   public static void resetUsers() {
+    // Ensure the test database schema is up‑to‑date before clearing data
+    AppFlyway.migrate();
     try (Connection connection =
             DriverManager.getConnection(
                 AppDatabaseConfig.JDBC_URL,
                 AppDatabaseConfig.JDBC_USER,
                 AppDatabaseConfig.JDBC_PASSWORD);
         Statement statement = connection.createStatement()) {
+      // Remove any existing rows
       statement.executeUpdate("TRUNCATE TABLE \"user\"");
+      // Load seed data for tests
       executeSqlScript(statement, SEED_USERS_SCRIPT);
     } catch (SQLException | IOException ex) {
       throw new IllegalStateException("Failed to reset test database", ex);
