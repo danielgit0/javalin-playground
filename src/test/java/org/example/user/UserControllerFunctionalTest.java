@@ -7,6 +7,7 @@ import io.javalin.Javalin;
 import io.javalin.json.JavalinJackson;
 import io.javalin.testtools.JavalinTest;
 import org.example.App;
+import org.example.config.db.DatabaseTestSupport;
 import org.example.user.controller.UserResponse;
 import org.example.user.controller.UsersResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +20,7 @@ public class UserControllerFunctionalTest {
 
   @BeforeEach
   void setUp() {
+    DatabaseTestSupport.resetUsers();
     app = new App().javalinApp();
     javalinJackson = new JavalinJackson();
   }
