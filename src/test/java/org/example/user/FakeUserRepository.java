@@ -3,6 +3,7 @@ package org.example.user;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.example.user.repository.User;
@@ -13,16 +14,21 @@ public class FakeUserRepository implements UserRepository {
   private final Map<UUID, User> databaseSimulator = new ConcurrentHashMap<>();
 
   @Override
-  public User save(User user) {
+  public Optional<User> save(User user) {
     if (user.getId() == null) {
       user.setId(UUID.randomUUID());
     }
     databaseSimulator.put(user.getId(), user);
-    return user;
+    return Optional.of(databaseSimulator.get(user.getId()));
   }
 
   @Override
   public List<User> findAll() {
     return new ArrayList<>(databaseSimulator.values());
+  }
+
+  @Override
+  public Optional<User> findbyId(UUID id) {
+    return Optional.empty();
   }
 }

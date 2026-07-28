@@ -1,10 +1,14 @@
 package org.example.user.repository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public interface UserRepository {
 
-  User save(User user);
+  Optional<User> save(User user);
 
   List<User> findAll();
+
+  Optional<User> findbyId(UUID id);
 }

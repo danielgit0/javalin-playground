@@ -1,6 +1,7 @@
 package org.example.user.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.example.user.repository.User;
 import org.example.user.repository.UserRepository;
@@ -16,8 +17,12 @@ public class UserServiceImpl implements UserService {
   @Override
   public UserDto createUser(CreateUserDto user) {
     User newUser = new User(user.username());
-    User savedUser = userRepository.save(newUser);
+    Optional<User> savedUserOptional = userRepository.save(newUser);
+    if (savedUserOptional.isEmpty()) {
+      return null;
+    }
 
+    final User savedUser = savedUserOptional.get();
     return new UserDto(savedUser.getId(), savedUser.getUsername());
   }
 

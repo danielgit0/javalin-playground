@@ -23,7 +23,12 @@ public class UserController {
     }
 
     UserDto user = userService.createUser(new CreateUserDto(request.username()));
-    ctx.json(new UserResponse(user.id(), user.username())).status(HttpStatus.CREATED);
+
+    if (user == null) {
+      ctx.status(HttpStatus.NOT_FOUND);
+    } else {
+      ctx.json(new UserResponse(user.id(), user.username())).status(HttpStatus.CREATED);
+    }
   }
 
   public void getAll(Context ctx) {
