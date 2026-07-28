@@ -28,7 +28,7 @@ public class FakeUserRepository implements UserRepository {
   }
 
   @Override
-  public Optional<User> findbyId(UUID id) {
+  public Optional<User> findById(UUID id) {
     if (databaseSimulator.containsKey(id)) {
       return Optional.of(databaseSimulator.get(id));
     }

@@ -10,5 +10,5 @@ public interface UserRepository {
 
   List<User> findAll();
 
-  Optional<User> findbyId(UUID id);
+  Optional<User> findById(UUID id);
 }

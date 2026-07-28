@@ -21,7 +21,7 @@ public class UserRepositoryImpl implements UserRepository {
         .set(USER.ID, user.getId())
         .set(USER.USERNAME, user.getUsername())
         .execute();
-    return findbyId(user.getId());
+    return findById(user.getId());
   }
 
   @Override
@@ -30,7 +30,7 @@ public class UserRepositoryImpl implements UserRepository {
   }
 
   @Override
-  public Optional<User> findbyId(UUID id) {
+  public Optional<User> findById(UUID id) {
     return AppJooq.dsl().selectFrom(USER).where(USER.ID.eq(id)).fetchOptionalInto(User.class);
   }
 
