@@ -67,4 +67,15 @@ public class UserControllerTest {
 
     assertEquals("Username must be at least 5 characters", exception.getMessage());
   }
+
+  @Test
+  public void GET_to_find_by_id_with_wrong_uuid_format_throws_bad_request() {
+    String wrongIdFormat = "1";
+    when(ctx.pathParam("id")).thenReturn(wrongIdFormat);
+
+    BadRequestResponse exception =
+        assertThrows(BadRequestResponse.class, () -> userController.findById(ctx));
+
+    assertEquals("Invalid UUID string: " + wrongIdFormat, exception.getMessage());
+  }
 }

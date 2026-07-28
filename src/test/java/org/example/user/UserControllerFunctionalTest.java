@@ -69,4 +69,15 @@ public class UserControllerFunctionalTest {
           assertThat(userResponse.username()).isEqualTo("Roland");
         });
   }
+
+  @Test
+  public void GET_to_find_by_id_returns_not_found() {
+    JavalinTest.test(
+        app,
+        (server, client) -> {
+          var response = client.get("/users/00000000-0000-0000-0000-000000000000");
+
+          assertThat(response.code()).isEqualTo(404);
+        });
+  }
 }

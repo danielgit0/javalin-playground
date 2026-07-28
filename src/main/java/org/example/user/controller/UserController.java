@@ -4,6 +4,7 @@ import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import java.util.List;
+import java.util.UUID;
 import org.example.user.service.CreateUserDto;
 import org.example.user.service.UserDto;
 import org.example.user.service.UserService;
@@ -38,5 +39,23 @@ public class UserController {
             .toList();
 
     ctx.json(new UsersResponse(users)).status(HttpStatus.OK);
+  }
+
+  public void findById(Context ctx) {
+    final String idStr = ctx.pathParam("id");
+    final UUID id;
+    try {
+      id = UUID.fromString(idStr);
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestResponse("Invalid UUID string: " + idStr);
+    }
+
+    UserDto user = userService.findById(id);
+
+    if (user == null) {
+      ctx.status(HttpStatus.NOT_FOUND);
+    } else {
+      ctx.json(new UserResponse(user.id(), user.username())).status(HttpStatus.CREATED);
+    }
   }
 }

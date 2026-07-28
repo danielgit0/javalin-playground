@@ -30,6 +30,7 @@ public class App {
                         () -> {
                           get(userController::getAll);
                           post(userController::create);
+                          path("/{id}", () -> get(userController::findById));
                         });
 
                     get("/ui", ctx -> ctx.html("<h1>User UI</h1>"));
